@@ -129,7 +129,7 @@ public class Student {
                 newGradeInputs();
             } else {
                 writer.write("You got a " + "[" +  gradeTotal + "]"+ " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
-                writer.write("Your overall grade for the class is a " + finalGrades + "\n");
+                writer.write("Your overall grade is " + finalGrades + "\n");
                 writer.close();
             }
 
