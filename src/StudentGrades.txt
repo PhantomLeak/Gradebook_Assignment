@@ -1,8 +1,34 @@
-Blaster deflection
-Lightsaber combat
-Force Control Homework
-Lightsaber combat [Exam]
-Lightsaber combat [Homework]
-Force Control [Exam]
-Blaster deflection [Project]
-Blaster Deflection [Quiz]
+test2 [exam] 70.0
+test2 [exam] 70.0
+nullhell [exam] []
+Blaster deflection [exam] [90.0]
+test2 [exam] [90.0, 80.0]
+force control [exam] 0.0
+dld [exam] 0
+es  [exam] 0.0
+salkfh [exam] 0.0
+dhfdfd [exam] 0
+dfs [exam] 0
+saf [quiz] [8000, 9000]
+contor [exam] 0
+blaster [exam] 90
+safs [quiz] 270
+Blaster deflection [quiz] 150
+dhfd [exam] 50
+Blaster deflection [exam] 90
+dafsaf [exam] 0
+asf [exam] 0
+blaster deflectin [exam] 90.0
+Blaster deflection [quiz] 0.0
+Blaster deflection [quiz] 0.0
+Blaster deflection [exam] 0.0
+Lightsaber combat [quiz] 0.0
+you got a -1 in quiz
+Force control [quiz] 0.0
+You got a [90] on your exam in your Blaster deflectionForce control [homework] 0.0
+You got a [100] on your quiz in your Lightsaber combat
+You got a [100, 100] on your quiz in your Blaster deflection
+Force control [project] 0.0
+You got a [90] on your exam in your Blaster deflection
+You got a [90, 100] on your homework in your Lightsaber combat
+Blaster deflection [quiz] 270
