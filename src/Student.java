@@ -8,19 +8,17 @@ public class Student {
     private int project = 125;
     private int total = 700;
     public List<String> grades = new ArrayList<>();
-    public List<Integer> storeInfo = new ArrayList<>();
+    public ArrayList<Integer> storeGradeInfo = new ArrayList<>();
+    public ArrayList<Integer> weightedGradesStored = new ArrayList<>();
+    public ArrayList<Integer> gradeWeightesStored = new ArrayList<>();
 
     public Student() {}
-    int examGrade;
-    int projectGrade;
-    int homeworkGrade;
-    int quizGrade;
+    int quizWeight = 0;
+    int examWeight = 0;
+    int projectWeight = 0;
+    int homeworkWeight = 0;
 
-    int examTotal;
-    int quizTotal;
-    int projectTotal;
-    int homeworkTotal;
-    double finalGrade;
+    int gradeTotal;
 
     protected void newGradeInputs() throws IOException {
         Scanner scan = new Scanner(System.in);
@@ -45,16 +43,60 @@ public class Student {
 
             switch (gradeTypeDecision) {
                 case "exam":
-                    examCalculation();
-                    break;
-                case "quiz":
-                    quizCalculation();
+                    examWeight = 30;
+                    gradeWeightesStored.add(examWeight);
+                    System.out.print("Please enter the grade you got on your exam: ");
+                    String examGradeInput = scan.nextLine();
+
+                    if (examGradeInput.length() > 0) {
+                        gradeTotal = Integer.parseInt(examGradeInput);
+                        storeGradeInfo.add(gradeTotal);
+                        weightedGradesStored.add(gradeTotal * 30);
+                    }else{
+                        gradeTotal = 0;
+                    }
                     break;
                 case "project":
-                    projectCalculation();
+                    projectWeight = 25;
+                    gradeWeightesStored.add(projectWeight);
+                    System.out.print("Please enter the grade you got on your exam: ");
+                    String projectGradeInput = scan.nextLine();
+
+                    if (projectGradeInput.length() > 0) {
+                        gradeTotal = Integer.parseInt(projectGradeInput);
+                        storeGradeInfo.add(gradeTotal);
+                        weightedGradesStored.add(gradeTotal * 25);
+                    }else{
+                        gradeTotal = 0;
+                    }
                     break;
                 case "homework":
-                    homeworkCalculation();
+                    homeworkWeight = 25;
+                    gradeWeightesStored.add(homeworkWeight);
+                    System.out.print("Please enter the grade you got on your exam: ");
+                    String homeworkGradeInput = scan.nextLine();
+
+                    if (homeworkGradeInput.length() > 0) {
+                        gradeTotal = Integer.parseInt(homeworkGradeInput);
+                        storeGradeInfo.add(gradeTotal);
+                        weightedGradesStored.add(gradeTotal * 25);
+                    }else{
+                        gradeTotal = 0;
+                    }
+                    break;
+                case "quiz":
+                    quizWeight = 20;
+                    gradeWeightesStored.add(quizWeight);
+                    System.out.print("Please enter the grade you got on your exam: ");
+                    String quizGradeInput = scan.nextLine();
+
+                    if (quizGradeInput.length() > 0) {
+                        gradeTotal = Integer.parseInt(quizGradeInput);
+                        storeGradeInfo.add(gradeTotal);
+                        weightedGradesStored.add(gradeTotal * 20);
+                    }else{
+                        gradeTotal = 0;
+                    }
                     break;
                 default:
                     System.out.println("Error, please try again");
@@ -64,20 +106,30 @@ public class Student {
 
             //Equation to add up all inputted grades.
             int sumOfGrades = 0;
-            for (int i=0; i<storeInfo.size(); i++) {
-                sumOfGrades += storeInfo.get(i);
+            int sumOfWeights = 0;
+            int sumOfGradeTimesWeight = 0;
 
+            for (int i=0; i<storeGradeInfo.size(); i++) {
+                sumOfGrades += storeGradeInfo.get(i);
             }
+            for (int i=0; i<gradeWeightesStored.size(); i++) {
+                sumOfWeights += gradeWeightesStored.get(i);
+            }
+            for (int i=0; i<weightedGradesStored.size(); i++) {
+                sumOfGradeTimesWeight += weightedGradesStored.get(i);
+            }
+
+            int finalGrades = (sumOfGradeTimesWeight/sumOfWeights);
 
             System.out.print("Would you like to enter any other grades? [yes or no]: ");
             String moreGradeInputs = scan.nextLine().toLowerCase();
             if (moreGradeInputs.equals("yes")) {  //create loop that lets user input more than one grade
-                writer.write("You got a " + storeInfo + " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
+                writer.write("You got a " + "[" +  gradeTotal + "]" + " on your " + gradeTypeDecision + " in " + classDecision + "\n");
                 writer.close();
                 newGradeInputs();
             } else {
-                writer.write("You got a " + storeInfo + " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
-                writer.write("Your overall grade for the class is a " + sumOfGrades);
+                writer.write("You got a " + "[" +  gradeTotal + "]"+ " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
+                writer.write("Your overall grade for the class is a " + finalGrades + "\n");
                 writer.close();
             }
 
@@ -86,70 +138,6 @@ public class Student {
 
         }
     }
-
-    protected double examCalculation(){
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Please enter the grade you received: ");
-        String gradeExamInput = scan.nextLine();
-
-        if (gradeExamInput.length() > 0){
-            examGrade = Integer.parseInt(gradeExamInput);
-            examTotal = ((examGrade*30)/30);
-            storeInfo.add(examTotal);
-        }else{
-            examTotal = 0;
-        }
-
-        return examTotal;
-    }
-
-    protected double quizCalculation(){
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Please enter the grade you received: ");
-        String gradeQuizInput = scan.nextLine();
-        quizGrade = Integer.parseInt(gradeQuizInput);
-        if (quizGrade > 0){
-            quizTotal = ((quizGrade*20)/20);
-            storeInfo.add(quizTotal);
-        }else{
-            quizTotal = 0;
-        }
-
-        return quizTotal;
-    }
-
-    protected double homeworkCalculation(){
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Please enter the grade you received: ");
-        String gradehomeworkInput = scan.nextLine();
-
-        if (gradehomeworkInput.length() > 0) {
-            homeworkGrade = Integer.parseInt(gradehomeworkInput);
-            homeworkTotal = ((homeworkGrade*25)/25);
-            storeInfo.add(homeworkTotal);
-        }else{
-            homeworkTotal = 0;
-        }
-
-        return homeworkTotal;
-    }
-
-    protected double projectCalculation(){
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Please enter the grade you received: ");
-        String gradeprojectInput = scan.nextLine();
-
-        if (gradeprojectInput.length() > 0) {
-            projectGrade = Integer.parseInt(gradeprojectInput);
-            projectTotal = ((projectGrade*25)/25);
-            storeInfo.add(homeworkTotal);
-        }else{
-            projectTotal = 0;
-        }
-
-        return projectTotal;
-    }
-
 
     protected void showOldGrades() {
         try {
