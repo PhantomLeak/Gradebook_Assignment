@@ -1,7 +1,11 @@
 import java.io.*;
 import java.util.*;
 
+/*
+This class will ask the user for their grade inputs and calculate their grades
+ */
 public class Student {
+    //Super method holding variables for use
     private int exam = 100;
     private int quizzes = 225;
     private int homework = 250;
@@ -20,6 +24,7 @@ public class Student {
 
     int gradeTotal;
 
+    //Get class choice and grade type from the student.
     protected void newGradeInputs() throws IOException {
         Scanner scan = new Scanner(System.in);
         ArrayList<String> classOptions = new ArrayList<>();
@@ -29,11 +34,11 @@ public class Student {
         File txtFile = new File("src/StudentGrades.txt");
 
         if(!txtFile.exists()) {
-            txtFile.createNewFile();
+            txtFile.createNewFile();  //Creates a new text file if there is not one
         }
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(txtFile, true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(txtFile, true));  // writes the users input into StudentGrades.txt
 
             System.out.print("What class are you entering grades for?: " + classOptions + ": "); //Student choosing what class they want to take...
             String classDecision = scan.nextLine();
@@ -104,7 +109,7 @@ public class Student {
                     break;
             }
 
-            //Equation to add up all inputted grades.
+            //Equations to add up all inputted grades.
             int sumOfGrades = 0;
             int sumOfWeights = 0;
             int sumOfGradeTimesWeight = 0;
@@ -121,6 +126,7 @@ public class Student {
 
             int finalGrades = (sumOfGradeTimesWeight/sumOfWeights);
 
+            // Prints out the users grades and loops over if the user wants to enter in more than one grade.
             System.out.print("Would you like to enter any other grades? [yes or no]: ");
             String moreGradeInputs = scan.nextLine().toLowerCase();
             if (moreGradeInputs.equals("yes")) {  //create loop that lets user input more than one grade
@@ -138,6 +144,8 @@ public class Student {
 
         }
     }
+
+    // Shows the user their grades if the are viewing old ones.
 
     protected void showOldGrades() {
         try {
