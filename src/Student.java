@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 
+
 /*
 This class will ask the user for their grade inputs and calculate their grades
  */
@@ -15,6 +16,9 @@ public class Student {
     public ArrayList<Integer> storeGradeInfo = new ArrayList<>();
     public ArrayList<Integer> weightedGradesStored = new ArrayList<>();
     public ArrayList<Integer> gradeWeightesStored = new ArrayList<>();
+    public ArrayList<Integer> BlasterDeflectionGrade = new ArrayList<>();
+    public ArrayList<Integer> LightsaberCombatGrade = new ArrayList<>();
+    public ArrayList<Integer> ForceControlGrade = new ArrayList<>();
 
     public Student() {}
     int quizWeight = 0;
@@ -45,6 +49,8 @@ public class Student {
 
             System.out.print("What types of grades are you entering? [Exam, Quiz, Project, Homework]: ");
             String gradeTypeDecision = scan.nextLine().toLowerCase();
+
+            // Switch statement that takes in what the grade type is and stores calculation into array... should probably do calculations in separate method though
 
             switch (gradeTypeDecision) {
                 case "exam":
@@ -123,19 +129,19 @@ public class Student {
             for (int i=0; i<weightedGradesStored.size(); i++) {
                 sumOfGradeTimesWeight += weightedGradesStored.get(i);
             }
-
+            // used to show the final grade overall.
             int finalGrades = (sumOfGradeTimesWeight/sumOfWeights);
 
-            // Prints out the users grades and loops over if the user wants to enter in more than one grade.
+            // Writes the users grades in StudentGrades.txt and loops over if the user wants to enter in more than one grade.
             System.out.print("Would you like to enter any other grades? [yes or no]: ");
             String moreGradeInputs = scan.nextLine().toLowerCase();
             if (moreGradeInputs.equals("yes")) {  //create loop that lets user input more than one grade
-                writer.write("You got a " + "[" +  gradeTotal + "]" + " on your " + gradeTypeDecision + " in " + classDecision + "\n");
+                writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal()  + "]" + " on your " + gradeTypeDecision + " in " + classDecision + "\n");
                 writer.close();
                 newGradeInputs();
             } else {
-                writer.write("You got a " + "[" +  gradeTotal + "]"+ " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
-                writer.write("Your overall grade is " + finalGrades + "\n");
+                writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal() + "]" + " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
+                writer.write("Your overall grade is " + finalGrades + "[" + letterGradeTotal() + "]" + "\n");
                 writer.close();
             }
 
@@ -145,7 +151,7 @@ public class Student {
         }
     }
 
-    // Shows the user their grades if the are viewing old ones.
+    // uses reader to read StudentGrades.txt
 
     protected void showOldGrades() {
         try {
@@ -165,6 +171,23 @@ public class Student {
         }
     }
 
+    public String letterGradeTotal() {
+        if (gradeTotal <= 100 && gradeTotal >= 90) {
+            return "A";
+        } else if (gradeTotal <= 89 && gradeTotal >= 80) {
+            return "B";
+        } else if (gradeTotal <= 79 && gradeTotal >= 70) {
+            return "C";
+        } else if (gradeTotal <= 69 && gradeTotal >= 60) {
+            return "D";
+        } else if ((gradeTotal <= 59 && gradeTotal >= 0)) {
+            return "F";
+        }
+        return "You entered an invalid grade.";
+    }
+
+
+    // Either states there are not grades to print out or uses reader to print out grades for student
     protected void printOldGrades() {
         if(grades.size() < 1) {
             System.out.println("Grades not loaded");
