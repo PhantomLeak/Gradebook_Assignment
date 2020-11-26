@@ -54,83 +54,22 @@ public class Student {
 
             switch (gradeTypeDecision) {
                 case "exam":
-                    examWeight = 30;
-                    gradeWeightesStored.add(examWeight);
-                    System.out.print("Please enter the grade you got on your exam: ");
-                    String examGradeInput = scan.nextLine();
-
-                    if (examGradeInput.length() > 0) {
-                        gradeTotal = Integer.parseInt(examGradeInput);
-                        storeGradeInfo.add(gradeTotal);
-                        weightedGradesStored.add(gradeTotal * 30);
-                    }else{
-                        gradeTotal = 0;
-                    }
+                    examGrade();
                     break;
                 case "project":
-                    projectWeight = 25;
-                    gradeWeightesStored.add(projectWeight);
-                    System.out.print("Please enter the grade you got on your exam: ");
-                    String projectGradeInput = scan.nextLine();
-
-                    if (projectGradeInput.length() > 0) {
-                        gradeTotal = Integer.parseInt(projectGradeInput);
-                        storeGradeInfo.add(gradeTotal);
-                        weightedGradesStored.add(gradeTotal * 25);
-                    }else{
-                        gradeTotal = 0;
-                    }
+                    projectGrade();
                     break;
                 case "homework":
-                    homeworkWeight = 25;
-                    gradeWeightesStored.add(homeworkWeight);
-                    System.out.print("Please enter the grade you got on your exam: ");
-                    String homeworkGradeInput = scan.nextLine();
-
-                    if (homeworkGradeInput.length() > 0) {
-                        gradeTotal = Integer.parseInt(homeworkGradeInput);
-                        storeGradeInfo.add(gradeTotal);
-                        weightedGradesStored.add(gradeTotal * 25);
-                    }else{
-                        gradeTotal = 0;
-                    }
+                    homeworkGrade();
                     break;
                 case "quiz":
-                    quizWeight = 20;
-                    gradeWeightesStored.add(quizWeight);
-                    System.out.print("Please enter the grade you got on your exam: ");
-                    String quizGradeInput = scan.nextLine();
-
-                    if (quizGradeInput.length() > 0) {
-                        gradeTotal = Integer.parseInt(quizGradeInput);
-                        storeGradeInfo.add(gradeTotal);
-                        weightedGradesStored.add(gradeTotal * 20);
-                    }else{
-                        gradeTotal = 0;
-                    }
+                    quizGrade();
                     break;
                 default:
                     System.out.println("Error, please try again");
                     newGradeInputs();
                     break;
             }
-
-            //Equations to add up all inputted grades.
-            int sumOfGrades = 0;
-            int sumOfWeights = 0;
-            int sumOfGradeTimesWeight = 0;
-
-            for (int i=0; i<storeGradeInfo.size(); i++) {
-                sumOfGrades += storeGradeInfo.get(i);
-            }
-            for (int i=0; i<gradeWeightesStored.size(); i++) {
-                sumOfWeights += gradeWeightesStored.get(i);
-            }
-            for (int i=0; i<weightedGradesStored.size(); i++) {
-                sumOfGradeTimesWeight += weightedGradesStored.get(i);
-            }
-            // used to show the final grade overall.
-            int finalGrades = (sumOfGradeTimesWeight/sumOfWeights);
 
             // Writes the users grades in StudentGrades.txt and loops over if the user wants to enter in more than one grade.
             System.out.print("Would you like to enter any other grades? [yes or no]: ");
@@ -141,7 +80,7 @@ public class Student {
                 newGradeInputs();
             } else {
                 writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal() + "]" + " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
-                writer.write("Your overall grade is " + finalGrades + "[" + letterGradeTotal() + "]" + "\n");
+                writer.write("Your overall grade is " + finalGrade() + "[" + letterGradeTotal() + "]" + "\n");
                 writer.close();
             }
 
@@ -151,24 +90,98 @@ public class Student {
         }
     }
 
-    // uses reader to read StudentGrades.txt
+    //Calculates the exam grade
+    protected String examGrade() {
+        Scanner scan = new Scanner(System.in);
+        examWeight = 30;
+        gradeWeightesStored.add(examWeight);
+        System.out.print("Please enter the grade you got on your exam: ");
+        String examGradeInput = scan.nextLine();
 
-    protected void showOldGrades() {
-        try {
-            FileReader reader = new FileReader("src/StudentGrades.txt"); //Makes files readable
-            BufferedReader bReader = new BufferedReader(reader);  //Reads it one line at a time
-
-            String line = "";
-            while ((line = bReader.readLine()) != null) {
-                grades.add(line.toLowerCase());
-            }
-
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println("File does not exist: " + ex.getStackTrace());
-        } catch (IOException ex) {
-            System.out.println("Problem reading file: " + ex.getStackTrace());
+        if (examGradeInput.length() > 0) {
+            gradeTotal = Integer.parseInt(examGradeInput);
+            storeGradeInfo.add(gradeTotal);
+            weightedGradesStored.add(gradeTotal * 30);
+        }else{
+            gradeTotal = 0;
         }
+        return "Please enter a valid grade";
+    }
+
+    //Calculates the grade for projects
+    protected String projectGrade() {
+        Scanner scan = new Scanner(System.in);
+        projectWeight = 25;
+        gradeWeightesStored.add(projectWeight);
+        System.out.print("Please enter the grade you got on your exam: ");
+        String projectGradeInput = scan.nextLine();
+
+        if (projectGradeInput.length() > 0) {
+            gradeTotal = Integer.parseInt(projectGradeInput);
+            storeGradeInfo.add(gradeTotal);
+            weightedGradesStored.add(gradeTotal * 25);
+        }else{
+            gradeTotal = 0;
+        }
+        return "Please enter a valid grade";
+    }
+
+    // Calculates homework grade
+    protected String homeworkGrade() {
+        Scanner scan = new Scanner(System.in);
+        homeworkWeight = 25;
+        gradeWeightesStored.add(homeworkWeight);
+        System.out.print("Please enter the grade you got on your exam: ");
+        String homeworkGradeInput = scan.nextLine();
+
+        if (homeworkGradeInput.length() > 0) {
+            gradeTotal = Integer.parseInt(homeworkGradeInput);
+            storeGradeInfo.add(gradeTotal);
+            weightedGradesStored.add(gradeTotal * 25);
+        }else{
+            gradeTotal = 0;
+        }
+        return "Please enter a valid grade";
+    }
+
+    // Calculates the quiz grade
+    protected String quizGrade() {
+        Scanner scan = new Scanner(System.in);
+        quizWeight = 20;
+        gradeWeightesStored.add(quizWeight);
+        System.out.print("Please enter the grade you got on your exam: ");
+        String quizGradeInput = scan.nextLine();
+
+        if (quizGradeInput.length() > 0) {
+            gradeTotal = Integer.parseInt(quizGradeInput);
+            storeGradeInfo.add(gradeTotal);
+            weightedGradesStored.add(gradeTotal * 20);
+        }else{
+            gradeTotal = 0;
+        }
+        return "Please enter valid grade";
+    }
+
+    // Calculates the final overall grade for the student
+    protected int finalGrade() {
+        //Equations to add up all inputted grades.
+        int sumOfGrades = 0;
+        int sumOfWeights = 0;
+        int sumOfGradeTimesWeight = 0;
+
+        for (int i=0; i<storeGradeInfo.size(); i++) {
+            sumOfGrades += storeGradeInfo.get(i);
+        }
+        for (int i=0; i<gradeWeightesStored.size(); i++) {
+            sumOfWeights += gradeWeightesStored.get(i);
+        }
+        for (int i=0; i<weightedGradesStored.size(); i++) {
+            sumOfGradeTimesWeight += weightedGradesStored.get(i);
+        }
+        // used to show the final grade overall.
+        int finalGrades = (sumOfGradeTimesWeight/sumOfWeights);
+
+        return finalGrades;
     }
 
     public String letterGradeTotal() {
@@ -186,6 +199,28 @@ public class Student {
         return "You entered an invalid grade.";
     }
 
+    protected void writeGrades() {
+
+    }
+
+    // uses reader to read StudentGrades.txt
+    protected void showOldGrades() {
+        try {
+            FileReader reader = new FileReader("src/StudentGrades.txt"); //Makes files readable
+            BufferedReader bReader = new BufferedReader(reader);  //Reads it one line at a time
+
+            String line = "";
+            while ((line = bReader.readLine()) != null) {
+                grades.add(line.toLowerCase());
+            }
+
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("File does not exist: " + ex.getStackTrace());
+        } catch (IOException ex) {
+            System.out.println("Problem reading file: " + ex.getStackTrace());
+        }
+    }
 
     // Either states there are not grades to print out or uses reader to print out grades for student
     protected void printOldGrades() {

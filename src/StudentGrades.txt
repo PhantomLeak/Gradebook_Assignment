@@ -1,5 +1,4 @@
 
 You got a 90[A] on your exam in Blaster deflection
-You got a 100[A] on your homework in Lightsaber combat
-You got a 80[B] on your quiz in your Lightsaber combat
-Your overall grade is 90[B]
+You got a 50[F] on your exam in your Lightsaber combat
+Your overall grade is 70[F]
