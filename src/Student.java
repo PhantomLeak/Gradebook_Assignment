@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -12,13 +13,13 @@ public class Student {
     private int homework = 250;
     private int project = 125;
     private int total = 700;
+    private String gradeTypeDecision;
+    private String classDecision;
+
     public List<String> grades = new ArrayList<>();
-    public ArrayList<Integer> storeGradeInfo = new ArrayList<>();
-    public ArrayList<Integer> weightedGradesStored = new ArrayList<>();
-    public ArrayList<Integer> gradeWeightesStored = new ArrayList<>();
-    public ArrayList<Integer> BlasterDeflectionGrade = new ArrayList<>();
-    public ArrayList<Integer> LightsaberCombatGrade = new ArrayList<>();
-    public ArrayList<Integer> ForceControlGrade = new ArrayList<>();
+    private ArrayList<Integer> storeGradeInfo = new ArrayList<>();
+    private ArrayList<Integer> weightedGradesStored = new ArrayList<>();
+    private ArrayList<Integer> gradeWeightesStored = new ArrayList<>();
 
     public Student() {}
     int quizWeight = 0;
@@ -30,11 +31,11 @@ public class Student {
 
     //Get class choice and grade type from the student.
     protected void newGradeInputs() throws IOException {
-        Scanner scan = new Scanner(System.in);
         ArrayList<String> classOptions = new ArrayList<>();
-        classOptions.add("Blaster deflection");
-        classOptions.add("Lightsaber combat");
-        classOptions.add("Force control");
+        classOptions.add("blaster deflection");
+        classOptions.add("lightsaber combat");
+        classOptions.add("force control");
+        Scanner scan = new Scanner(System.in);
         File txtFile = new File("src/StudentGrades.txt");
 
         if(!txtFile.exists()) {
@@ -43,34 +44,16 @@ public class Student {
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(txtFile, true));  // writes the users input into StudentGrades.txt
-
             System.out.print("What class are you entering grades for?: " + classOptions + ": "); //Student choosing what class they want to take...
-            String classDecision = scan.nextLine();
-
-            System.out.print("What types of grades are you entering? [Exam, Quiz, Project, Homework]: ");
-            String gradeTypeDecision = scan.nextLine().toLowerCase();
-
-            // Switch statement that takes in what the grade type is and stores calculation into array... should probably do calculations in separate method though
-
-            switch (gradeTypeDecision) {
-                case "exam":
-                    examGrade();
-                    break;
-                case "project":
-                    projectGrade();
-                    break;
-                case "homework":
-                    homeworkGrade();
-                    break;
-                case "quiz":
-                    quizGrade();
-                    break;
-                default:
-                    System.out.println("Error, please try again");
-                    newGradeInputs();
-                    break;
+            classDecision = scan.nextLine().toLowerCase();
+            // if statement to ensure the class being inputted is a valid class option.
+            if (classOptions.contains(classDecision)) {
+                typeOfGrade();
+            }else {
+                System.out.println("Please enter a valid class");
+                writer.close(); // closes writer so that it does not write the same thing twice
+                newGradeInputs();
             }
-
             // Writes the users grades in StudentGrades.txt and loops over if the user wants to enter in more than one grade.
             System.out.print("Would you like to enter any other grades? [yes or no]: ");
             String moreGradeInputs = scan.nextLine().toLowerCase();
@@ -88,6 +71,34 @@ public class Student {
             System.out.println("Cannot Write to file: permission issue: " + writerEX.getStackTrace());
 
         }
+    }
+
+    // Method that gets the type of grade the user wants to enter and sends them to the proper method to enter the desired grade.
+    private String typeOfGrade() throws IOException {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("What types of grades are you entering? [Exam, Quiz, Project, Homework]: ");
+        gradeTypeDecision = scan.nextLine().toLowerCase();
+
+        // Switch statement that takes in what the grade type is and stores calculation into array... should probably do calculations in separate method though
+        switch (gradeTypeDecision) {
+            case "exam":
+                examGrade();
+                break;
+            case "project":
+                projectGrade();
+                break;
+            case "homework":
+                homeworkGrade();
+                break;
+            case "quiz":
+                quizGrade();
+                break;
+            default:
+                System.out.println("Error, please try again");
+                newGradeInputs();
+                break;
+        }
+        return gradeTypeDecision;
     }
 
     //Calculates the exam grade
@@ -132,7 +143,7 @@ public class Student {
         homeworkWeight = 25;
         gradeWeightesStored.add(homeworkWeight);
         System.out.print("Please enter the grade you got on your exam: ");
-        String homeworkGradeInput = scan.nextLine();
+       String homeworkGradeInput = scan.next();
 
         if (homeworkGradeInput.length() > 0) {
             gradeTotal = Integer.parseInt(homeworkGradeInput);
@@ -199,10 +210,6 @@ public class Student {
         return "You entered an invalid grade.";
     }
 
-    protected void writeGrades() {
-
-    }
-
     // uses reader to read StudentGrades.txt
     protected void showOldGrades() {
         try {
@@ -225,7 +232,7 @@ public class Student {
     // Either states there are not grades to print out or uses reader to print out grades for student
     protected void printOldGrades() {
         if(grades.size() < 1) {
-            System.out.println("Grades not loaded");
+            System.out.println("Cannot load grades, no past grades entered.");
         } else{
             System.out.println("Your old grades are : ");
             for(String i : grades) {
@@ -233,10 +240,4 @@ public class Student {
             }
         }
     }
-
-
-
-
-
-
 }
