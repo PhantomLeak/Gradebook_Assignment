@@ -1,5 +1,7 @@
-You got a 90[A] on your quiz in blaster deflection
-You got a 100[A] on your project in lightsaber combat
-You got a 100[A] on your homework in force control
-You got a 100[A] on your exam in your blaster deflection
-Your overall grade is 98[A]
+
+You got a 90[A] on your exam
+You got a 100[A] on your quiz
+You got a 50[F] on your homework
+Your total for blaster deflection is 79
+You got a 90[A] on your project
+Your total for lightsaber combat is 82

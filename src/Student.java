@@ -3,6 +3,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 
+
 /*
 This class will ask the user for their grade inputs and calculate their grades
  */
@@ -13,8 +14,11 @@ public class Student {
     private int homework = 250;
     private int project = 125;
     private int total = 700;
+
     private String gradeTypeDecision;
     private String classDecision;
+    private String moreGradeInputs;
+    private String continueGradeInputs;
 
     public List<String> grades = new ArrayList<>();
     private ArrayList<Integer> storeGradeInfo = new ArrayList<>();
@@ -31,10 +35,6 @@ public class Student {
 
     //Get class choice and grade type from the student.
     protected void newGradeInputs() throws IOException {
-        ArrayList<String> classOptions = new ArrayList<>();
-        classOptions.add("blaster deflection");
-        classOptions.add("lightsaber combat");
-        classOptions.add("force control");
         Scanner scan = new Scanner(System.in);
         File txtFile = new File("src/StudentGrades.txt");
 
@@ -44,34 +44,64 @@ public class Student {
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(txtFile, true));  // writes the users input into StudentGrades.txt
+            if (storeGradeInfo.isEmpty()) {
+                getclassOption();
+            }else {
+                if (moreGradeInputs.equals("yes")){
+                    typeOfGrade();
+                }else{
+                    System.out.print("Would you like to enter a grade for a new class?: [yes or no]: ");
+                    continueGradeInputs = scan.nextLine();
+                    if (continueGradeInputs.equals("yes")){
+                        getclassOption();
+                    }else{
+                        System.out.println("Thank you for using the gradebook");
+                        System.exit(0);
+                    }
+                }
+            }
+
+            // Writes the users grades in StudentGrades.txt and loops over if the user wants to enter in more than one grade.
+            System.out.print("Would you like to enter any other grades for this class? [yes or no]: ");
+            moreGradeInputs = scan.nextLine().toLowerCase();
+            switch (moreGradeInputs) {
+                case "yes":
+                    writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal()  + "]" + " on your " + gradeTypeDecision + "\n");
+                    writer.close();
+                    newGradeInputs();
+                    break;
+                case "no":
+                    writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal()  + "]" + " on your " + gradeTypeDecision + "\n");
+                    writer.write("Your total for " + classDecision + " is " + finalGrade() + "\n");
+                    writer.close();
+                    newGradeInputs();
+                    break;
+                default:
+                    System.out.println("Invalid response, please try again.");
+            }
+        } catch(IOException writerEX){
+            System.out.println("Cannot Write to file: permission issue: " + writerEX.getStackTrace());
+        }
+    }
+
+    private String getclassOption() throws IOException {
+        ArrayList<String> classOptions = new ArrayList<>();
+        classOptions.add("blaster deflection");
+        classOptions.add("lightsaber combat");
+        classOptions.add("force control");
+        Scanner scan = new Scanner(System.in);
             System.out.print("What class are you entering grades for?: " + classOptions + ": "); //Student choosing what class they want to take...
             classDecision = scan.nextLine().toLowerCase();
             // if statement to ensure the class being inputted is a valid class option.
             if (classOptions.contains(classDecision)) {
                 typeOfGrade();
-            }else {
-                System.out.println("Please enter a valid class");
-                writer.close(); // closes writer so that it does not write the same thing twice
-                newGradeInputs();
-            }
-            // Writes the users grades in StudentGrades.txt and loops over if the user wants to enter in more than one grade.
-            System.out.print("Would you like to enter any other grades? [yes or no]: ");
-            String moreGradeInputs = scan.nextLine().toLowerCase();
-            if (moreGradeInputs.equals("yes")) {  //create loop that lets user input more than one grade
-                writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal()  + "]" + " on your " + gradeTypeDecision + " in " + classDecision + "\n");
-                writer.close();
-                newGradeInputs();
             } else {
-                writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal() + "]" + " on your " + gradeTypeDecision + " in your " + classDecision + "\n");
-                writer.write("Your overall grade is " + finalGrade() + "[" + letterGradeTotal() + "]" + "\n");
-                writer.close();
+                System.out.println("Please enter a valid class");
+                newGradeInputs();
             }
-
-        } catch(IOException writerEX){
-            System.out.println("Cannot Write to file: permission issue: " + writerEX.getStackTrace());
-
+            return classDecision;
         }
-    }
+
 
     // Method that gets the type of grade the user wants to enter and sends them to the proper method to enter the desired grade.
     private String typeOfGrade() throws IOException {
@@ -124,7 +154,7 @@ public class Student {
         Scanner scan = new Scanner(System.in);
         projectWeight = 25;
         gradeWeightesStored.add(projectWeight);
-        System.out.print("Please enter the grade you got on your exam: ");
+        System.out.print("Please enter the grade you got on your project: ");
         String projectGradeInput = scan.nextLine();
 
         if (projectGradeInput.length() > 0) {
@@ -142,7 +172,7 @@ public class Student {
         Scanner scan = new Scanner(System.in);
         homeworkWeight = 25;
         gradeWeightesStored.add(homeworkWeight);
-        System.out.print("Please enter the grade you got on your exam: ");
+        System.out.print("Please enter the grade you got on your homework: ");
        String homeworkGradeInput = scan.next();
 
         if (homeworkGradeInput.length() > 0) {
@@ -160,7 +190,7 @@ public class Student {
         Scanner scan = new Scanner(System.in);
         quizWeight = 20;
         gradeWeightesStored.add(quizWeight);
-        System.out.print("Please enter the grade you got on your exam: ");
+        System.out.print("Please enter the grade you got on your quiz: ");
         String quizGradeInput = scan.nextLine();
 
         if (quizGradeInput.length() > 0) {
