@@ -66,7 +66,7 @@ public class Student {
             moreGradeInputs = scan.nextLine().toLowerCase();
             switch (moreGradeInputs) {
                 case "yes":
-                    writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal()  + "]" + " on your " + gradeTypeDecision + "\n");
+                    writer.write("You got a " +  gradeTotal + "[" + letterGradeTotal()  + "]" + " on your " + gradeTypeDecision + " in " + classDecision + "\n");
                     writer.close();
                     newGradeInputs();
                     break;
