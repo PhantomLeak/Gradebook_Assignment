@@ -1,4 +1,4 @@
-# Gradebook_Assignment
+# Gradebook
 Gradebook program that: 
 - Allows users to input their classes
 - Enter Grades 
